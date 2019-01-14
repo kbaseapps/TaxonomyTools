@@ -1,0 +1,26 @@
+#
+# define display information
+#
+name: Object Counts by Taxon
+
+tooltip: |
+    Get a listing of workspace objects that relate that match taxa in a set separated by type.
+
+screenshots: []
+
+icon: icon.png
+
+#
+# Configure the display and description of parameters
+#
+parameters :
+    taxa_ref :
+        ui-name : |
+            Taxon Object
+        short-hint : |
+            An object containing taxa such as a Amplicon Set
+        long-hint  : |
+            An object containing taxa such as a Amplicon Set
+
+description : |
+    Get a listing of workspace objects that relate that match taxa in a set separated by type.
