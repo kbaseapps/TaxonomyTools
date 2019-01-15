@@ -7,9 +7,9 @@ from configparser import ConfigParser
 from TaxonomyTools.TaxonomyToolsImpl import TaxonomyTools
 from TaxonomyTools.TaxonomyToolsServer import MethodContext
 from TaxonomyTools.authclient import KBaseAuth as _KBaseAuth
+from TaxonomyTools.core.app_impl import AppImpl
 
 from installed_clients.WorkspaceClient import Workspace
-from installed_clients.GenericsAPIClient import GenericsAPI
 
 
 class TaxonomyToolsTest(unittest.TestCase):
@@ -47,20 +47,8 @@ class TaxonomyToolsTest(unittest.TestCase):
         cls.wsName = "test_ContigFilter_" + str(suffix)
         ret = cls.wsClient.create_workspace({'workspace': cls.wsName})  # noqa
 
-        cls.gapi = GenericsAPI(cls.callback_url)
-        params = {'obj_type': 'AmpliconMatrix',
-                  'matrix_name': 'test_AmpliconMatrix',
-                  'workspace_name': cls.wsName,
-                  "tsv": {
-                      "tsv_file_tsv": os.path.join('data', 'amplicon_test.tsv'),
-                      'metadata_keys_tsv': 'taxonomy_id, taxonomy, taxonomy_source, consensus_sequence'
-                  },
-                  'scale': 'raw',
-                  'description': "OTU data",
-                  'amplicon_set_name': 'test_AmpliconSet'
-                  }
-        ret = cls.gapi.import_matrix_from_biom(params)[0]
-        cls.amplicon_set_ref = ret['amplicon_set_obj_ref']
+        cls.app_impl = AppImpl(cls.cfg, cls.ctx)
+        cls.amplicon_set_ref = "foo"
 
     @classmethod
     def tearDownClass(cls):
@@ -68,13 +56,19 @@ class TaxonomyToolsTest(unittest.TestCase):
             cls.wsClient.delete_workspace({'workspace': cls.wsName})
             print('Test workspace was deleted')
 
-    # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-    def integration_test(self):
+    def integration_test_search(self):
         ret = self.serviceImpl.objects_counts_by_taxon(self.ctx, {'workspace_name': self.wsName,
                                                                   'taxa_ref': self.amplicon_set_ref,
                                                                   'data_source': 'search'
                                                                   })[0]
         self.assertCountEqual(ret.keys(), ['report_name', 'report_ref', 'object_counts'])
+
+    def integration_test_re(self):
+        with self.assertRaises(NotImplementedError):
+            ret = self.serviceImpl.objects_counts_by_taxon(self.ctx, {'workspace_name': self.wsName,
+                                                                      'taxa_ref': self.amplicon_set_ref,
+                                                                      'data_source': 're'
+                                                                      })[0]
 
     def bad_input_test(self):
         with self.assertRaisesRegex(ValueError, "Required keys"):
@@ -92,5 +86,5 @@ class TaxonomyToolsTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Invalid value for "data_source"'):
             self.serviceImpl.objects_counts_by_taxon(self.ctx, {'workspace_name': self.wsName,
                                                                 'taxa_ref': self.amplicon_set_ref,
-                                                                'data_source': 'search'
+                                                                'data_source': 'foo'
                                                                 })

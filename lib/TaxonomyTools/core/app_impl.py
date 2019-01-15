@@ -23,13 +23,27 @@ class AppImpl:
                 logging.warning("Unexpected parameter {} supplied".format(param))
 
     def _get_taxa(self, params):
-        return [{"name": "foo"}, {"name": "foo"}]
+        return [{"name": "Pseudomonas fluorescens"}, {"name": "Escherichia coli"}]
 
-    def _get_counts_from_search(self, params, taxon_list):
-        return {
-            "foo": {"Narrative": 1, "Genome": 35},
-            "bar": {"Genome": 21, "ExpressionMatrix": 32}
+    def _get_counts_from_search(self, taxon_list):
+        counts = {}
+        for taxon in taxon_list:
+            term = taxon['name']
+            search_params = {
+                "match_filter": {
+                    "full_text_in_all": term,
+                    "exclude_subobjects": 1,
+                },
+                "access_filter": {
+                    "with_private": 0,
+                    "with_public": 1
+                }
             }
+            ret = self.kbse.search_types(search_params)
+            logging.info(ret)
+            counts[term] = ret['type_to_count']
+
+        return counts
 
     def _get_counts_from_ke(self, params, taxon_list):
         raise NotImplementedError
@@ -69,8 +83,7 @@ class AppImpl:
         table_lines.append(f'\t<thead><tr><td>{header}</td></tr></thead>')
         table_lines.append('\t<tbody>')
         for taxon in taxon_list:
-
-            row = [taxon['name']] + [object_counts[taxon['name']].get(ws_type, 0)
+            row = [taxon['name']] + [str(object_counts[taxon['name']].get(ws_type, 0))
                                      for ws_type in self.object_categories]
             line = "</td><td>".join(row)
             table_lines.append(f'\t\t<tr><td>{line}</td></tr>')
@@ -98,24 +111,21 @@ class AppImpl:
         self.re_api = RE_API(config['re-url'], ctx['token'])
         self.kbse = KBaseSearchEngine(config['search-url'])
         self.kbr = KBaseReport(self.callback_url)
-        self.object_categories = ['Narrative', 'Genome', 'ExpressionMatrix']
+        self.object_categories = ['Narrative', 'Genome', 'ExpressionMatrix', 'Tree']
 
     def objects_counts_by_taxon(self, params):
         self._validate_params(params, {'workspace_name', 'taxa_ref', 'data_source', })
         taxa = self._get_taxa(params)
 
         if params['data_source'] == 'search':
-            counts = self._get_counts_from_search(params, taxa)
+            counts = self._get_counts_from_search(taxa)
         elif params['data_source'] == 're':
             counts = self._get_counts_from_ke(params, taxa)
         else:
             raise ValueError(f'Invalid value for "data_source": {params["data_source"]}')
 
         output = {'object_counts': counts}
-        output.update(self._build_report(params['taxons'],
-                                         counts,
-                                         params['workspace_name'],
-                                         ))
+        output.update(self._build_report(taxa, counts, params['workspace_name']))
         return output
 
 
