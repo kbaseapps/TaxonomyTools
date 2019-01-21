@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 import time
 import unittest
@@ -48,7 +49,12 @@ class TaxonomyToolsTest(unittest.TestCase):
         ret = cls.wsClient.create_workspace({'workspace': cls.wsName})  # noqa
 
         cls.app_impl = AppImpl(cls.cfg, cls.ctx)
-        cls.amplicon_set_ref = "foo"
+        data = json.load(open('data/test_amplicon_set.json'))
+        info = cls.wsClient.save_objects({'workspace': cls.wsName,
+                                          'objects': [{'name': 'test_amplicon_set',
+                                                       'type': 'KBaseExperiments.AmpliconSet',
+                                                       'data': data}]})[0]
+        cls.amplicon_set_ref = f"{info[6]}/{info[0]}/{info[4]}"
 
     @classmethod
     def tearDownClass(cls):

@@ -2,6 +2,7 @@ import logging
 import os
 import uuid
 
+from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.KBaseSearchEngineClient import KBaseSearchEngine
 from TaxonomyTools.core.re_api import RE_API
@@ -23,25 +24,36 @@ class AppImpl:
                 logging.warning("Unexpected parameter {} supplied".format(param))
 
     def _get_taxa(self, params):
-        return [{"name": "Pseudomonas fluorescens"}, {"name": "Escherichia coli"}]
+        data = self.dfu.get_objects(
+            {'object_refs': [params['taxa_ref']]}
+        )['data'][0]['data']
+        logging.info(data)
+        taxa = [{'id': amp_id,
+                 'name': amp['taxonomy'].get('scientific_name'),
+                 'ref': amp['taxonomy'].get('taxonomy_ref')}
+                for amp_id, amp in data['amplicons'].items()]
+        logging.info(taxa)
+        return taxa
 
     def _get_counts_from_search(self, taxon_list):
         counts = {}
         for taxon in taxon_list:
-            term = taxon['name']
+            if not taxon.get('name'):
+                counts[taxon['id']] = {}
+                continue
             search_params = {
                 "match_filter": {
-                    "full_text_in_all": term,
+                    "full_text_in_all": taxon['name'],
                     "exclude_subobjects": 1,
                 },
                 "access_filter": {
-                    "with_private": 0,
+                    "with_private": 1,
                     "with_public": 1
                 }
             }
             ret = self.kbse.search_types(search_params)
             logging.info(ret)
-            counts[term] = ret['type_to_count']
+            counts[taxon['id']] = ret['type_to_count']
 
         return counts
 
@@ -79,12 +91,13 @@ class AppImpl:
         table_lines = []
         table_lines.append(f'<h3 style="text-align: center">Object Counts</h3>')
         table_lines.append('<table class="table table-bordered table-striped">')
-        header = "</td><td>".join(['Taxon'] + self.object_categories)
+        header = "</td><td>".join(['Amplicon', 'Taxon'] + self.object_categories)
         table_lines.append(f'\t<thead><tr><td>{header}</td></tr></thead>')
         table_lines.append('\t<tbody>')
         for taxon in taxon_list:
-            row = [taxon['name']] + [str(object_counts[taxon['name']].get(ws_type, 0))
-                                     for ws_type in self.object_categories]
+            row = [taxon['id'], taxon['name']]
+            row += [str(object_counts[taxon['id']].get(ws_type, 0))
+                    for ws_type in self.object_categories]
             line = "</td><td>".join(row)
             table_lines.append(f'\t\t<tr><td>{line}</td></tr>')
         table_lines.append('\t</tbody>')
@@ -109,6 +122,7 @@ class AppImpl:
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.scratch = config['scratch']
         self.re_api = RE_API(config['re-url'], ctx['token'])
+        self.dfu = DataFileUtil(self.callback_url)
         self.kbse = KBaseSearchEngine(config['search-url'])
         self.kbr = KBaseReport(self.callback_url)
         self.object_categories = ['Narrative', 'Genome', 'ExpressionMatrix', 'Tree']
