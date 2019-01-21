@@ -38,8 +38,8 @@
                     "input_parameter": "taxa_ref",
                     "target_property": "taxa_ref"
                 }, {
-                    "constant_value": "data_source",
-                    "target_property": "search"
+                    "constant_value": "search",
+                    "target_property": "data_source"
                 }
             ],
             "output_mapping": [
