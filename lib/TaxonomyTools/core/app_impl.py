@@ -125,7 +125,7 @@ class AppImpl:
         self.dfu = DataFileUtil(self.callback_url)
         self.kbse = KBaseSearchEngine(config['search-url'])
         self.kbr = KBaseReport(self.callback_url)
-        self.object_categories = ['Narrative', 'Genome', 'ExpressionMatrix', 'Tree']
+        self.object_categories = ['Narrative', 'Genome', 'FBAModel', 'Tree']
 
     def objects_counts_by_taxon(self, params):
         self._validate_params(params, {'workspace_name', 'taxa_ref', 'data_source', })
