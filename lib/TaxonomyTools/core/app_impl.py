@@ -7,6 +7,7 @@ from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.KBaseSearchEngineClient import KBaseSearchEngine
 from TaxonomyTools.core.re_api import RE_API
 
+from pprint import pformat
 
 class AppImpl:
     @staticmethod
@@ -32,7 +33,9 @@ class AppImpl:
                  'name': amp['taxonomy'].get('scientific_name'),
                  'ref': amp['taxonomy'].get('taxonomy_ref')}
                 for amp_id, amp in data['amplicons'].items()]
-        logging.info(taxa)
+        logging.info( "############## this is taxa ##########" )
+        logging.info( pformat( taxa ) )
+        #logging.info(taxa)
         return taxa
 
     def _get_counts_from_search(self, taxon_list):
@@ -58,8 +61,15 @@ class AppImpl:
         return counts
 
     def _get_counts_from_ke(self, params, taxon_list):
-        raise NotImplementedError
+        logging.info( "######## _get_counts_from_ke ######" )
+        for r in taxon_list:
+            id, name, ref = [ r.get( x ) for x in [ "id", "name", "ref" ] ]
+            logging.info( f'###### taxon {id} {name} {ref}' )
+            ret = self.re_api.get_referred_counts_by_type( ref )
+        return( [] )
+        #raise NotImplementedError
 
+        
     def _build_report(self, taxon_list, object_counts, workspace_name):
         """
         _generate_report: generate summary report with counts
