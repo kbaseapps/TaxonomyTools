@@ -70,11 +70,11 @@ class TaxonomyToolsTest(unittest.TestCase):
         self.assertCountEqual(ret.keys(), ['report_name', 'report_ref', 'object_counts'])
 
     def integration_test_re(self):
-        with self.assertRaises(NotImplementedError):
-            ret = self.serviceImpl.objects_counts_by_taxon(self.ctx, {'workspace_name': self.wsName,
-                                                                      'taxa_ref': self.amplicon_set_ref,
-                                                                      'data_source': 're'
-                                                                      })[0]
+        ret = self.serviceImpl.objects_counts_by_taxon(self.ctx, {'workspace_name': self.wsName,
+                                                                  'taxa_ref': self.amplicon_set_ref,
+                                                                  'data_source': 're'
+                                                                  })[0]
+        self.assertCountEqual(ret.keys(), ['report_name', 'report_ref', 'object_counts'])
 
     def bad_input_test(self):
         with self.assertRaisesRegex(ValueError, "Required keys"):

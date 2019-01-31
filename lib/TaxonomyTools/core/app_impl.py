@@ -1,6 +1,7 @@
 import logging
 import os
 import uuid
+from functools import lru_cache
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.KBaseReportClient import KBaseReport
@@ -33,9 +34,6 @@ class AppImpl:
                  'name': amp['taxonomy'].get('scientific_name'),
                  'ref': amp['taxonomy'].get('taxonomy_ref')}
                 for amp_id, amp in data['amplicons'].items()]
-        logging.info( "############## this is taxa ##########" )
-        logging.info( pformat( taxa ) )
-        #logging.info(taxa)
         return taxa
 
     def _get_counts_from_search(self, taxon_list):
@@ -44,31 +42,36 @@ class AppImpl:
             if not taxon.get('name'):
                 counts[taxon['id']] = {}
                 continue
-            search_params = {
-                "match_filter": {
-                    "full_text_in_all": taxon['name'],
-                    "exclude_subobjects": 1,
-                },
-                "access_filter": {
-                    "with_private": 1,
-                    "with_public": 1
-                }
-            }
-            ret = self.kbse.search_types(search_params)
-            logging.info(ret)
+            ret = self._search_taxon(taxon.get('name'))
             counts[taxon['id']] = ret['type_to_count']
 
         return counts
 
-    def _get_counts_from_ke(self, params, taxon_list):
-        logging.info( "######## _get_counts_from_ke ######" )
-        for r in taxon_list:
-            id, name, ref = [ r.get( x ) for x in [ "id", "name", "ref" ] ]
-            logging.info( f'###### taxon {id} {name} {ref}' )
-            ret = self.re_api.get_referred_counts_by_type( ref )
-        return( [] )
-        #raise NotImplementedError
+    @lru_cache(256)
+    def _search_taxon(self, taxon_name):
+        search_params = {
+            "match_filter": {
+                "full_text_in_all": taxon_name,
+                "exclude_subobjects": 1,
+            },
+            "access_filter": {
+                "with_private": 1,
+                "with_public": 1
+            }
+        }
+        ret = self.kbse.search_types(search_params)
+        logging.info(ret)
+        return ret
 
+    def _get_counts_from_ke(self, params, taxon_list):
+        counts = {}
+        for taxon in taxon_list:
+            _id, name, ref = [taxon.get(x) for x in ["id", "name", "ref"]]
+            logging.info(f'###### taxon {_id} {name} {ref}')
+            ret = self.re_api.get_referred_counts_by_type(ref)
+            counts[_id] = {obj['type']: obj['type_count'] for obj in ret}
+
+        return counts
         
     def _build_report(self, taxon_list, object_counts, workspace_name):
         """
@@ -135,7 +138,7 @@ class AppImpl:
         self.dfu = DataFileUtil(self.callback_url)
         self.kbse = KBaseSearchEngine(config['search-url'])
         self.kbr = KBaseReport(self.callback_url)
-        self.object_categories = ['Narrative', 'Genome', 'FBAModel', 'Tree']
+        self.object_categories = ['Narrative', 'Assembly', 'Genome', 'FBAModel', 'Tree']
 
     def objects_counts_by_taxon(self, params):
         self._validate_params(params, {'workspace_name', 'taxa_ref', 'data_source', })
