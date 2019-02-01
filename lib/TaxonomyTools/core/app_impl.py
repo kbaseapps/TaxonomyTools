@@ -8,7 +8,6 @@ from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.KBaseSearchEngineClient import KBaseSearchEngine
 from TaxonomyTools.core.re_api import RE_API
 
-from pprint import pformat
 
 class AppImpl:
     @staticmethod
@@ -104,13 +103,14 @@ class AppImpl:
         table_lines = []
         table_lines.append(f'<h3 style="text-align: center">Object Counts</h3>')
         table_lines.append('<table class="table table-bordered table-striped">')
-        header = "</td><td>".join(['Amplicon', 'Taxon'] + self.object_categories)
+        header = "</td><td>".join(['Amplicon', 'Taxon', 'Total'] + self.object_categories)
         table_lines.append(f'\t<thead><tr><td>{header}</td></tr></thead>')
         table_lines.append('\t<tbody>')
         for taxon in taxon_list:
-            row = [taxon['id'], taxon['name']]
-            row += [str(object_counts[taxon['id']].get(ws_type, 0))
-                    for ws_type in self.object_categories]
+            tax_counts = [object_counts[taxon['id']].get(ws_type, 0)
+                          for ws_type in self.object_categories]
+            row = [taxon['id'], taxon['name'], str(sum(tax_counts))]
+            row += [str(x) for x in tax_counts]
             line = "</td><td>".join(row)
             table_lines.append(f'\t\t<tr><td>{line}</td></tr>')
         table_lines.append('\t</tbody>')
@@ -138,7 +138,9 @@ class AppImpl:
         self.dfu = DataFileUtil(self.callback_url)
         self.kbse = KBaseSearchEngine(config['search-url'])
         self.kbr = KBaseReport(self.callback_url)
-        self.object_categories = ['Narrative', 'Assembly', 'Genome', 'FBAModel', 'Tree']
+        self.object_categories = ['Narrative', 'Assembly', 'Genome', 'Tree', 'Pangenome',
+                                  'FBAModel', 'RNASeqAlignment', 'ExpressionMatrix',
+                                  'DifferentialExpressionMatrix', 'FeatureSet']
 
     def objects_counts_by_taxon(self, params):
         self._validate_params(params, {'workspace_name', 'taxa_ref', 'data_source', })
