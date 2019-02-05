@@ -222,6 +222,22 @@
         "taxonomy_ref": "12570/114683/2"
       }
     },
+    "GG_OTU_21": {
+      "consensus_sequence": "TACGTAGGgggCGAGCGTTGTCCGGATTTATTGGGCGTAAAGAGCGTGTAGGCGGCCTGTCAAGTCCGATGTGAAATGTCACGGCTCAACCGTGAACCTGCATTGGAAACTGTCAGGCTAGAGTCTGGATGAGGAGAATGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGGTGGCGAAGGCGGTTCTCTAGGACAGTACTGACGCTGAGACGCGAAAGCGTGGGGAGCAAACAGG",
+      "taxonomy": {
+        "lineage": [
+          "k__Bacteria",
+          "p__Actinobacteria",
+          "c__Actinobacteria",
+          "o__Unclassified",
+          "f__Unclassified",
+          "g__Unclassified"
+        ],
+        "scientific_name": "Bacteria",
+        "taxonomy_id": "2_taxon",
+        "taxonomy_ref": "12570/38/1"
+      }
+    },
     "GG_OTU_3": {
       "consensus_sequence": "CATCGATCGTACGTACGTAG",
       "taxonomy": {

@@ -4,7 +4,7 @@
         "jjeffryes"
     ],
     "contact": "",
-    "categories": ["active"],
+    "categories": ["active", "knowledge_engine"],
     "widgets": {
         "input": null,
         "output": "no-display"
@@ -19,6 +19,37 @@
             "field_type": "text",
             "text_options": {
                 "valid_ws_types": ["KBaseExperiments.AmpliconSet"]
+            }
+        }, {
+            "id": "minimum_taxonomic_specificity",
+            "optional": true,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ 0 ],
+            "field_type": "dropdown",
+            "dropdown_options":{
+                "options": [{
+                    "value": 0,
+                    "display": "Kingdom"
+                }, {
+                    "value": 1,
+                    "display": "Phylum"
+                }, {
+                    "value": 2,
+                    "display": "Class"
+                }, {
+                    "value": 3,
+                    "display": "Order"
+                }, {
+                    "value": 4,
+                    "display": "Family"
+                }, {
+                    "value": 5,
+                    "display": "Genus"
+                }, {
+                    "value": 6,
+                    "display": "Species"
+                }]
             }
         }
     ],
@@ -41,6 +72,9 @@
                 }, {
                     "constant_value": "re",
                     "target_property": "data_source"
+                }, {
+                    "input_parameter": "minimum_taxonomic_specificity",
+                    "target_property": "minimum_taxonomic_specificity"
                 }
             ],
             "output_mapping": [

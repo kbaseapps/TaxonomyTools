@@ -21,6 +21,13 @@ parameters :
             An object containing taxa such as a Amplicon Set
         long-hint  : |
             An object containing taxa such as a Amplicon Set
+    minimum_taxonomic_specificity:
+        ui-name : |
+            Minimum Taxonomic Specificity
+        short-hint : |
+            Taxa that are more generic than this level will be skipped
+        long-hint  : |
+            Taxa that are more generic than this level will be skipped
 
 description : |
     Get a listing of workspace objects that relate that match taxa in a set separated by type.

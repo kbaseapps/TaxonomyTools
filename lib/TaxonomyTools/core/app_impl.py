@@ -25,14 +25,23 @@ class AppImpl:
                 logging.warning("Unexpected parameter {} supplied".format(param))
 
     def _get_taxa(self, params):
+        def _is_specific(taxon, level):
+            cleaned = [term.split("__", 1)[-1] for term in taxon['lineage']][::-1]
+            return len(taxon['lineage']) - cleaned.index(taxon['name']) -1 >= level
+
+        min_taxa_level = int(params.get('minimum_taxonomic_specificity', "0"))
         data = self.dfu.get_objects(
             {'object_refs': [params['taxa_ref']]}
         )['data'][0]['data']
-        logging.info(data)
         taxa = [{'id': amp_id,
                  'name': amp['taxonomy'].get('scientific_name'),
-                 'ref': amp['taxonomy'].get('taxonomy_ref')}
+                 'ref': amp['taxonomy'].get('taxonomy_ref'),
+                 'lineage': amp['taxonomy'].get('lineage', [])}
                 for amp_id, amp in data['amplicons'].items()]
+        logging.info(f"Retrieved {len(taxa)} taxa")
+        if min_taxa_level:
+            taxa = [taxon for taxon in taxa if _is_specific(taxon, min_taxa_level)]
+            logging.info(f"{len(taxa)} taxa after filtering")
         return taxa
 
     def _get_counts_from_search(self, taxon_list):

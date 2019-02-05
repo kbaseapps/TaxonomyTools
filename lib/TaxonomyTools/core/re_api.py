@@ -17,18 +17,18 @@ class RE_API:
         return ret.json()
 
     @lru_cache(256)
-    def get_referred_counts_by_type(self, ws_ref, is_private=False, is_public=False, owners=(),
+    def get_referred_counts_by_type(self, ws_ref, show_private=False, show_public=False, owners=(),
                                     simplify_type=True):
         if len(owners) < 1:
             owners = False
         
         body = json.dumps({'key':            ws_ref.replace('/', ':'),
-                           'is_private':     is_private,
-                           'is_public':      is_public,
+                           'show_private':     show_private,
+                           'show_public':      show_public,
                            'owners':         owners,
                            'simplify_type':  simplify_type
                            })
-        ret = self._call_re(params={'view': "list_referencing_type_counts"}, data=body)
+        ret = self._call_re(params={'view': "wsprov_list_referencing_type_counts"}, data=body)
         if "error" in ret:
             raise RuntimeError(f"{ret['error']}: {ret.get('arango_message', '')}")
 

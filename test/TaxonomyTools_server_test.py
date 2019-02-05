@@ -72,7 +72,8 @@ class TaxonomyToolsTest(unittest.TestCase):
     def integration_test_re(self):
         ret = self.serviceImpl.objects_counts_by_taxon(self.ctx, {'workspace_name': self.wsName,
                                                                   'taxa_ref': self.amplicon_set_ref,
-                                                                  'data_source': 're'
+                                                                  'data_source': 're',
+                                                                  'minimum_taxonomic_specificity': "5",
                                                                   })[0]
         self.assertCountEqual(ret.keys(), ['report_name', 'report_ref', 'object_counts'])
 
