@@ -17,8 +17,8 @@ class RE_API:
         return ret.json()
 
     @lru_cache(256)
-    def get_referred_counts_by_type(self, ws_ref, show_private=False, show_public=False, owners=(),
-                                    simplify_type=True):
+    def wsprov_list_referencing_type_counts(self, ws_ref, show_private=False, show_public=False,
+                                            owners=(), simplify_type=True):
         if len(owners) < 1:
             owners = False
         
@@ -32,4 +32,4 @@ class RE_API:
         if "error" in ret:
             raise RuntimeError(f"{ret['error']}: {ret.get('arango_message', '')}")
 
-        return ret['results']
+        return ret['results'][0]

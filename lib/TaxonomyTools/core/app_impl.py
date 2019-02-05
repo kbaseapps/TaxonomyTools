@@ -76,7 +76,7 @@ class AppImpl:
         for taxon in taxon_list:
             _id, name, ref = [taxon.get(x) for x in ["id", "name", "ref"]]
             logging.info(f'###### taxon {_id} {name} {ref}')
-            ret = self.re_api.get_referred_counts_by_type(ref)
+            ret = self.re_api.wsprov_list_referencing_type_counts(ref)
             counts[_id] = {obj['type']: obj['type_count'] for obj in ret}
 
         return counts
@@ -152,7 +152,8 @@ class AppImpl:
                                   'DifferentialExpressionMatrix', 'FeatureSet']
 
     def objects_counts_by_taxon(self, params):
-        self._validate_params(params, {'workspace_name', 'taxa_ref', 'data_source', })
+        self._validate_params(params, {'workspace_name', 'taxa_ref', 'data_source', },
+                              {"minimum_taxonomic_specificity", })
         taxa = self._get_taxa(params)
 
         if params['data_source'] == 'search':
