@@ -1,5 +1,5 @@
 {
-  "amplicon_matrix_ref": "35084/285/21",
+  "amplicon_matrix_ref": "39605/19/8",
   "amplicons": {
     "GG_OTU_1": {
       "consensus_sequence": "ACTGACTAGCTAGCTAACTG",
@@ -16,7 +16,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_10": {
@@ -34,7 +34,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_11": {
@@ -52,7 +52,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_12": {
@@ -70,7 +70,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_13": {
@@ -88,7 +88,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_14": {
@@ -106,7 +106,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_15": {
@@ -124,7 +124,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_16": {
@@ -142,7 +142,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_17": {
@@ -160,7 +160,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_18": {
@@ -178,7 +178,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_19": {
@@ -196,7 +196,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_2": {
@@ -214,7 +214,7 @@
         "scientific_name": "Dolichospermum",
         "taxon_id": "748770_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/100716/3"
+        "taxon_ref": "12570/143506/2"
       }
     },
     "GG_OTU_20": {
@@ -232,7 +232,24 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
+      }
+    },
+    "GG_OTU_21": {
+      "consensus_sequence": "TACGTAGGgggCGAGCGTTGTCCGGATTTATTGGGCGTAAAGAGCGTGTAGGCGGCCTGTCAAGTCCGATGTGAAATGTCACGGCTCAACCGTGAACCTGCATTGGAAACTGTCAGGCTAGAGTCTGGATGAGGAGAATGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGGTGGCGAAGGCGGTTCTCTAGGACAGTACTGACGCTGAGACGCGAAAGCGTGGGGAGCAAACAGG",
+      "taxonomy": {
+        "lineage": [
+          "k__Bacteria",
+          "p__Actinobacteria",
+          "c__Actinobacteria",
+          "o__Unclassified",
+          "f__Unclassified",
+          "g__Unclassified"
+        ],
+        "scientific_name": "Bacteria",
+        "taxon_id": "2_taxon",
+        "taxon_level": "Kingdom",
+        "taxon_ref": "12570/38/1"
       }
     },
     "GG_OTU_3": {
@@ -250,7 +267,7 @@
         "scientific_name": "Methanosarcina",
         "taxon_id": "2207_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/147440/3"
+        "taxon_ref": "12570/124268/1"
       }
     },
     "GG_OTU_4": {
@@ -268,7 +285,7 @@
         "scientific_name": "Halanaerobium",
         "taxon_id": "2330_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/149756/3"
+        "taxon_ref": "12570/217874/1"
       }
     },
     "GG_OTU_5": {
@@ -286,7 +303,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_6": {
@@ -304,7 +321,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_7": {
@@ -322,7 +339,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_8": {
@@ -340,7 +357,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     },
     "GG_OTU_9": {
@@ -358,7 +375,7 @@
         "scientific_name": "Escherichia",
         "taxon_id": "561_taxon",
         "taxon_level": "Genus",
-        "taxon_ref": "1779/125680/3"
+        "taxon_ref": "12570/114683/2"
       }
     }
   }
