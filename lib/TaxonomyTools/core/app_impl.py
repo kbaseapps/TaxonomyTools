@@ -35,7 +35,7 @@ class AppImpl:
         )['data'][0]['data']
         taxa = [{'id': amp_id,
                  'name': amp['taxonomy'].get('scientific_name'),
-                 'ref': amp['taxonomy'].get('taxonomy_ref'),
+                 'ref': amp['taxonomy'].get('taxon_ref'),
                  'lineage': amp['taxonomy'].get('lineage', [])}
                 for amp_id, amp in data['amplicons'].items()]
         logging.info(f"Retrieved {len(taxa)} taxa")
@@ -80,7 +80,7 @@ class AppImpl:
             counts[_id] = {obj['type']: obj['type_count'] for obj in ret}
 
         return counts
-        
+
     def _build_report(self, taxon_list, object_counts, workspace_name):
         """
         _generate_report: generate summary report with counts
