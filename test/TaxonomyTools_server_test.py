@@ -49,11 +49,17 @@ class TaxonomyToolsTest(unittest.TestCase):
         ret = cls.wsClient.create_workspace({'workspace': cls.wsName})  # noqa
 
         cls.app_impl = AppImpl(cls.cfg, cls.ctx)
-        data = json.load(open('data/test_amplicon_set.json'))
+        matrix_data = json.load(open('data/test_amplicon_matrix.json'))
+        info = cls.wsClient.save_objects({'workspace': cls.wsName,
+                                          'objects': [{'name': 'test_amplicon_matrix',
+                                                       'type': 'KBaseMatrices.AmpliconMatrix',
+                                                       'data': matrix_data}]})[0]
+        set_data = json.load(open('data/test_amplicon_set.json'))
+        set_data['amplicon_matrix_ref'] = f"{info[6]}/{info[0]}/{info[4]}"
         info = cls.wsClient.save_objects({'workspace': cls.wsName,
                                           'objects': [{'name': 'test_amplicon_set',
                                                        'type': 'KBaseExperiments.AmpliconSet',
-                                                       'data': data}]})[0]
+                                                       'data': set_data}]})[0]
         cls.amplicon_set_ref = f"{info[6]}/{info[0]}/{info[4]}"
 
     @classmethod

@@ -11,7 +11,7 @@ class RE_API:
         self.re_url = re_url
         self.token = token
 
-    def _call_re(self, endpoint="/api/query_results/", params=None, data=None):
+    def _call_re(self, endpoint="/api/v1/query_results/", params=None, data=None):
         header = {"Authorization": self.token}
         ret = requests.post(self.re_url+endpoint, data, params=params, headers=header)
         return ret.json()
