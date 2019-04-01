@@ -12,7 +12,7 @@
     "parameters": [ 
         {
             "id": "taxa_ref",
-            "optional": true,
+            "optional": false,
             "advanced": false,
             "allow_multiple": false,
             "default_values": [ "" ],
